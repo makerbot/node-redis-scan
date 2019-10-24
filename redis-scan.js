@@ -30,7 +30,9 @@ class RedisScan {
 	 * match.
 	 *
 	 * @param {Function} eachScanCallback - A function called after each
-	 * call to the Redis `SCAN` command. Invoked with (matchingKeys).
+	 * call to the Redis `SCAN` command. Invoked with (matchingKeys). If this
+	 * function returns `true` (NOT truthy) the scan will be cancelled and
+	 * `callback` will be called with the keys that were scanned.
 	 *
 	 * @param {Function} [callback] - A function called after the full scan has
 	 * completed and all keys have been returned.
@@ -54,7 +56,11 @@ class RedisScan {
 					const [cursor, matchingKeys] = data;
 
 					matchingKeysCount += matchingKeys.length;
-					eachScanCallback(matchingKeys);
+					
+					if (eachScanCallback(matchingKeys) === true) {
+						callback(null, matchingKeysCount);
+						return;
+					}
 
 					// We're done once Redis returns 0 for the next cursor.
 					if (cursor === '0') {

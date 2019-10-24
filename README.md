@@ -1,5 +1,7 @@
 # Node Redis key scanner
 
+**Adds support for cancellation. Based off the [library by GigSalad](https://github.com/GigSalad/node-redis-scan).**
+
 A simple ES6 Redis key scanner for Node 8 and newer. This is a small class that allows you to do one thing quickly and easily: scan a Redis keyspace for a given pattern.
 
 See the [Redis SCAN command documentation](https://redis.io/commands/scan) for information about how to write patterns for matching, the guarantees, caveats, etc.
@@ -54,7 +56,7 @@ Matching keys are passed to the intermediate callback function after each iterat
 |Name|Type|Description|
 |-|-|-|
 |`pattern`|string|The Redis glob-style string pattern to match keys against.|
-|`eachScanCallback`|function|Invoked with (matchingKeys).|
+|`eachScanCallback`|function|Invoked with (matchingKeys). If this returns `true` (NOT truthy), the scan will be cancelled. Useful if you only want to scan until a key is found.|
 |`callback`|function|Invoked with (err, matchCount).|
 
 **Example**

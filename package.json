@@ -1,5 +1,5 @@
 {
-  "name": "node-redis-scan",
+  "name": "@makerbot/redis-scan",
   "version": "1.0.3",
   "description": "A simple ES6 Redis key scanner for Node",
   "keywords": [
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/GigSalad/node-redis-scan"
+    "url": "https://github.com/makerbot/node-redis-scan"
   },
   "author": "GigSalad",
   "license": "Apache-2.0",
