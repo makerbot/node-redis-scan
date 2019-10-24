@@ -36,8 +36,10 @@ class RedisScan {
 	 *
 	 * @param {Function} [callback] - A function called after the full scan has
 	 * completed and all keys have been returned.
+	 * 
+	 * @param {Number} [count] - The COUNT parameter. Defaults to 10 (the Redis default)
 	 */
-	eachScan(pattern, eachScanCallback, callback) {
+	eachScan(pattern, eachScanCallback, callback, count = 10) {
 		let matchingKeysCount = 0;
 
 		// Because we're using the `scan()` method of the node-redis library
@@ -45,7 +47,7 @@ class RedisScan {
 		const recursiveScan = (cursor = 0) => {
 			// Build a Redis `SCAN` command using the `MATCH` option.
 			// See: https://redis.io/commands/scan#the-match-option
-			this.redisClient.scan(cursor, 'MATCH', pattern, (err, data) => {
+			this.redisClient.scan(cursor, 'MATCH', pattern, 'COUNT', count, (err, data) => {
 				if (err) {
 					callback(err);
 				} else {
